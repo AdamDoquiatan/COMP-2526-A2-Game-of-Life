@@ -91,18 +91,18 @@ public class World {
         }
         
         public void entityAction() {
-            if(entity == null || entity instanceof Plant) {
+            if(entity == null) {
                 //System.out.println("null");
                 return;
             } else {
-                //System.out.println(entity);
+//                System.out.println(entity);
                 entity.act(grid);
                 return;
             }
         }
         
         public void entityRefresh() {
-            if(entity == null || entity instanceof Plant) {
+            if(entity == null ) {
                 //System.out.println("null");
                 return;
             } else {

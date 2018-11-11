@@ -25,11 +25,10 @@ public class Herbivore extends Entity {
     
 
     protected void act(World.Cell[][] grid) {
-        while (this.energy > 0) {
+        while (energy > 0) {
         move(grid);
         energy--;
         }
-        return;
     }
     
     protected void refresh() {
@@ -64,75 +63,11 @@ public class Herbivore extends Entity {
             grid[currentRow][currentColumn].entity = null;
             grid[nextCoor[0]][nextCoor[1]].entity = this;
             currentCell = grid[nextCoor[0]][nextCoor[1]];
-            System.out.println(currentCell.entity + " moved");
-
-            
+//            System.out.println(currentCell.entity + " moved");
         }
     }
 
-    protected int[] targetAdjacentCell(int currentRow, int currentColumn, World.Cell[][] grid) {
-        
-        final int MAX_ROWS = grid.length - 1;
-        final int MAX_COLUMNS = grid[0].length - 1;
-        
-        int direction = RandomGenerator.nextNumber(8);
-        int[] nextCoor = {currentRow, currentColumn};
-        
-        System.out.println(direction);
-                switch (direction) {
-                case 0:
-                    if(currentRow > 0) {
-                        nextCoor[0] = currentRow - 1;
-                    }
-                    break;
-                case 1:
-                    if(currentRow > 0 && currentColumn < MAX_COLUMNS) {
-                        nextCoor[0] = currentRow - 1;
-                        nextCoor[1] = currentColumn + 1;
-                    }
-                    break;
-                case 2:
-                    if(currentColumn < MAX_COLUMNS) {
-                      nextCoor[1] = currentColumn + 1;
-                    }
-                    break;
-                case 3:
-                    if(currentRow < MAX_ROWS && currentColumn < MAX_COLUMNS) {
-                      nextCoor[0] = currentRow + 1;
-                      nextCoor[1] = currentColumn + 1;
-                    }
-                    break;
-                case 4:
-                    if(currentRow < MAX_ROWS) {
-                      nextCoor[0] = currentRow + 1;
-                    }
-                    break;
-                case 5:
-                    if(currentRow < MAX_ROWS && currentColumn > 0) {
-                      nextCoor[0] = currentRow + 1;
-                      nextCoor[1] = currentColumn -1;
-                    }
-                    break;
-                case 6:
-                    if(currentColumn > 0) {
-                      nextCoor[1] = currentColumn -1;
-                    }
-                    break;
-                case 7:
-                    if(currentRow > 0 && currentColumn > 0) {
-                      nextCoor[0] = currentRow -1;
-                      nextCoor[1] = currentColumn -1;
-                    }
-                    break;
-                
-                default:
-                    break;
-                }
-                return nextCoor;
-        }
-    
-    
-    protected void repro() {}
+    protected void repro(World.Cell[][] grid) {}
     
     
     
