@@ -6,19 +6,35 @@ import javafx.scene.paint.Color;
  * @author Adam Doquiatan
  * @version 2018
  */
-abstract class Entity {
+abstract class Entity {  
     
     protected int health;
     protected int energy;
     protected Color color;
     World.Cell currentCell;
 
+    /**
+     * An entity acts
+     * @param grid
+     */
     protected abstract void act(World.Cell[][] grid);
-    protected abstract void move(World.Cell[][] grid);
-    protected abstract void repro(World.Cell[][] grid);
-    protected abstract void refresh();
-         
     
+    /**
+     * An entity moves
+     * @param grid
+     */
+    protected abstract void move(World.Cell[][] grid);
+    
+    /**
+     * An entity reproduces
+     * @param grid
+     */
+    protected abstract void repro(World.Cell[][] grid);
+    
+    /**
+     * An entity refreshes refreshes its stats at the end of its turn
+     */
+    protected abstract void refresh();
      
     /**
      * @return Entities Health
@@ -57,8 +73,14 @@ abstract class Entity {
         return color;
     }
     
+    /**
+     * Targets a random adjecent cell
+     * @param currentRow
+     * @param currentColumn
+     * @param grid
+     * @return the row and column of an adjecent cell
+     */
     protected int[] targetAdjacentCell(int currentRow, int currentColumn, World.Cell[][] grid) {
-        
         final int MAX_ROWS = grid.length - 1;
         final int MAX_COLUMNS = grid[0].length - 1;
         
@@ -118,8 +140,14 @@ abstract class Entity {
                 return nextCoor;
     }
     
+    /**
+     * Creates an array of each surrounding cell starting at the topmost neighbor, and going clockwise
+     * @param currentRow
+     * @param currentColumn
+     * @param grid
+     * @return an array of 8 surrounding cells
+     */
     protected World.Cell[] gatherNeighbors(int currentRow, int currentColumn, World.Cell[][] grid) {
-        
         final int MAX_ROWS = grid.length - 1;
         final int MAX_COLUMNS = grid[0].length - 1;
         
@@ -172,7 +200,6 @@ abstract class Entity {
             }
 
         }
-        //System.out.println(neighbors[0] + " " + neighbors[1] + " " + neighbors[2] + " ");
         return neighbors;
     }
 }

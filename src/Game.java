@@ -32,7 +32,6 @@ public class Game {
     * Updates the game. Reloads GUI
     */
    void nextTurn() {
-       
        world.updateWorld();
        DisplayerFrame.gameGrid = world.getGrid();
        

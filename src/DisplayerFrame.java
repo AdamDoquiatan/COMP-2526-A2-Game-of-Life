@@ -1,14 +1,11 @@
 import javafx.scene.*;
 import javafx.stage.*;
 import javafx.application.*;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -82,17 +79,12 @@ public class DisplayerFrame extends Application
                     rec.setFill(gameGrid[row][col].entity.getColor());
                 }
                 
-                //Label label = new Label("" + game.world.getGrid()[row][col].getCurrentRow() + " , " + game.world.getGrid()[row][col].getCurrentColumn());
-                
                 GridPane.setRowIndex(rec, row);
                 GridPane.setColumnIndex(rec, col);
                 
                 //System.out.println("Row: " + GridPane.getRowIndex(rec));
                 //System.out.println("Column: " + GridPane.getColumnIndex(rec));
-                
-                //Label label = new Label("Row: " + GridPane.getRowIndex(rec) + '\n' + "Col: " + GridPane.getColumnIndex(rec));
-                //myGridPane.add(label, row, col);
-                
+               
                 rectangles[row][col] = rec;
                 
                 myGridPane.getChildren().addAll(rec);
@@ -119,7 +111,6 @@ public class DisplayerFrame extends Application
      */
     EventHandler<MouseEvent> updateGame = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent event) {
-            System.out.println("Clicked!");
             game.nextTurn();
             updateGUI();
         }

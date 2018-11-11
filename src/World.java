@@ -30,14 +30,18 @@ public class World {
                 populateCell(cell);
                 
                 //!!
-                grid[i][j] = cell; //Swap j and i to Make it look like Dennis'.
+                grid[i][j] = cell; //Swap j and i to flip grid.
                 //!!
                 
-               System.out.print("I,j: " + i + " , " + j + " entity:" + cell.entity + "\n");
+               System.out.print("row, column: " + i + " , " + j + " entity:" + cell.entity + "\n");
             }
         }
     }
     
+    
+    /**
+     * Prompts the entity in each cell to take an action
+     */
     public void updateWorld() {
         for(int i = 0; i < game.MAX_ROWS; i++) {
             for(int j = 0; j < game.MAX_COLUMNS; j++) {
@@ -101,6 +105,9 @@ public class World {
             }
         }
         
+        /**
+         * Prompts entity to enter its end of turn refresh phase.
+         */
         public void entityRefresh() {
             if(entity == null ) {
                 //System.out.println("null");
@@ -112,17 +119,22 @@ public class World {
             }
         }
 
+        /**
+         * @return the cell's current row
+         */
         //!!
-        //Return column for getCurrentRow, row for getCurrentColumn to make it look like Dennis'.
+        //Return column for getCurrentRow, row for getCurrentColumn to flip grid.
         public int getCurrentRow() {
             return row;
         }
         
+        /**
+         * @return the cell's current column
+         */
         public int getCurrentColumn() {
             return column;
         }
         //!!
-        
     }
     
     
