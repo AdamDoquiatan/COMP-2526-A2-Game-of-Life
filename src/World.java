@@ -71,10 +71,14 @@ public class World {
     private void populateCell(Cell cell) {
         int entityDeterminer = RandomGenerator.nextNumber(99);
         
-        if(entityDeterminer >= 85) {
+        if(entityDeterminer >= 80) {
             cell.entity = new Herbivore(cell);
-        } else if (entityDeterminer >= 65) {
+        } else if (entityDeterminer >= 60) {
             cell.entity = new Plant(cell);
+        } else if (entityDeterminer >= 50) {
+            cell.entity = new Carnivore(cell);
+        } else if (entityDeterminer >= 45) {
+            cell.entity = new Omnivore(cell);
         }
     }
     

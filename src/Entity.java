@@ -18,12 +18,7 @@ abstract class Entity {
      * @param grid
      */
     protected abstract void act(World.Cell[][] grid);
-    
-    /**
-     * An entity moves
-     * @param grid
-     */
-    protected abstract void move(World.Cell[][] grid);
+   
     
     /**
      * An entity reproduces
@@ -35,6 +30,7 @@ abstract class Entity {
      * An entity refreshes refreshes its stats at the end of its turn
      */
     protected abstract void refresh();
+    
      
     /**
      * @return Entities Health
@@ -73,6 +69,38 @@ abstract class Entity {
         return color;
     }
     
+    protected abstract boolean checkIfEdible(Entity entity);
+    
+    /**
+     * An entity moves
+     * @param grid
+     */
+    protected void move(World.Cell[][] grid) {
+        final int currentRow = currentCell.getCurrentRow();
+        final int currentColumn = currentCell.getCurrentColumn();
+        
+        int[] nextCoor = new int[2];
+
+        nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
+        
+        Entity targetEntity = grid[nextCoor[0]][nextCoor[1]].entity;
+        
+        if(!checkIfEdible(targetEntity) || targetEntity == null) {
+            return;
+        } else {
+            if(checkIfEdible(targetEntity)) {
+                eat();
+            }
+            grid[currentRow][currentColumn].entity = null;
+            grid[nextCoor[0]][nextCoor[1]].entity = this;
+            currentCell = grid[nextCoor[0]][nextCoor[1]];
+
+        }
+    }
+    
+    protected abstract void eat();
+
+
     /**
      * Targets a random adjecent cell
      * @param currentRow

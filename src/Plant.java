@@ -10,8 +10,7 @@ public class Plant extends Entity implements HerbivoreEdible {
     final int MAX_HEALTH = 1;
     final int MAX_ENERGY = 1;
     
-    
-    World.Cell currentCell;
+   
     
     /**
      * Constructs an object of type Plant.
@@ -73,7 +72,7 @@ public class Plant extends Entity implements HerbivoreEdible {
         }
 //        System.out.println(currentCell.entity + " plantNeigh: " + plantNeighbors + " nullNeigh: " + nullNeighbors);
 //        System.out.println(currentRow + " " + currentColumn);
-        if (plantNeighbors == 3 && nullNeighbors >= 3) {
+        if (plantNeighbors >= 2 && nullNeighbors >= 3) {
             while (grid[nextCoor[0]][nextCoor[1]].entity != null) {
                nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
 //               System.out.println(nextCoor[0] + " " + nextCoor[1]);
@@ -93,6 +92,20 @@ public class Plant extends Entity implements HerbivoreEdible {
      * @param grid
      */
     protected void move(World.Cell[][] grid) {}
+
+
+
+    @Override
+    protected boolean checkIfEdible(Entity entity) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    protected void eat() {
+        // TODO Auto-generated method stub
+        
+    }
     
     
     

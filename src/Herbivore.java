@@ -10,7 +10,6 @@ public class Herbivore extends Entity {
     final int MAX_HEALTH = 5;
     final int MAX_ENERGY = 1;
     
-    World.Cell currentCell;
     
     /**
      * Constructs an object of type Herbivore.
@@ -64,22 +63,33 @@ public class Herbivore extends Entity {
 
         nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
         
-        //System.out.println(grid[currentRow][currentColumn].entity);
-        //System.out.println(currentRow + " , " + currentColumn);
-        //System.out.println(nextCoor[0] + " , " + nextCoor[1]);
+        Entity targetEntity = grid[nextCoor[0]][nextCoor[1]].entity;
         
-        if(grid[nextCoor[0]][nextCoor[1]].entity instanceof Herbivore) {
+        if(!checkIfEdible(targetEntity) || targetEntity == null) {
             return;
         } else {
-            if(grid[nextCoor[0]][nextCoor[1]].entity instanceof HerbivoreEdible) {
-                health = MAX_HEALTH;
+            if(checkIfEdible(targetEntity)) {
+                eat();
             }
             grid[currentRow][currentColumn].entity = null;
             grid[nextCoor[0]][nextCoor[1]].entity = this;
             currentCell = grid[nextCoor[0]][nextCoor[1]];
-//            System.out.println(currentCell.entity + " moved");
+
         }
     }
+    
+    protected void eat() {
+        health = MAX_HEALTH;
+    }
+    
+    protected boolean checkIfEdible(Entity entity) {
+        if(entity instanceof HerbivoreEdible) {
+            return true;
+        }
+        return false;
+    }
+    
+    
 
     /**
      * @see Entity#repro(World.Cell[][])
@@ -87,5 +97,7 @@ public class Herbivore extends Entity {
      * @param grid
      */
     protected void repro(World.Cell[][] grid) {}
+
+
 
 }
