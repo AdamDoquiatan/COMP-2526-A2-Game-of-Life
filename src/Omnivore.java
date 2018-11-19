@@ -19,32 +19,18 @@ public class Omnivore extends Entity {
     }
 
 
-    protected void move(World.Cell[][] grid) {
 
-    }
-
-
-    protected void repro(World.Cell[][] grid) {
-
-    }
-
-
-    protected void refresh() {
-
-    }
-
-
-    @Override
     protected boolean checkIfEdible(Entity entity) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
-    protected void eat() {
+
+    protected Entity cloneSelf(World.Cell cloneCell) {
         // TODO Auto-generated method stub
-        
+        return null;
     }
+
 
 
 

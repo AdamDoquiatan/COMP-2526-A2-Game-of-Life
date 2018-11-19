@@ -7,6 +7,9 @@ import javafx.scene.paint.Color;
  * @version 2018
  */
 abstract class Entity {  
+    protected int maxHealth;
+    protected int maxEnergy;
+    
     
     protected int health;
     protected int energy;
@@ -18,19 +21,6 @@ abstract class Entity {
      * @param grid
      */
     protected abstract void act(World.Cell[][] grid);
-   
-    
-    /**
-     * An entity reproduces
-     * @param grid
-     */
-    protected abstract void repro(World.Cell[][] grid);
-    
-    /**
-     * An entity refreshes refreshes its stats at the end of its turn
-     */
-    protected abstract void refresh();
-    
      
     /**
      * @return Entities Health
@@ -98,9 +88,76 @@ abstract class Entity {
         }
     }
     
-    protected abstract void eat();
+    protected void eat() {
+        health = maxHealth;
+    }
+    
+    /**
+     * @see Entity#refresh()
+     * Herbivor loses 1 health each turn. Recovers energy
+     */
+    protected void refresh() {
+        health--;
+        if (health < 1) {
+            currentCell.entity = null;
+        } else {
+            energy = maxEnergy;
+        }
+    }
+    
+    /**
+     * @param <T>
+     * @param <F>
+     * @see Entity#repro(World.Cell[][])
+     * Plant creates new plant in adjecent null-entity cell under certain circumstances
+     * @param grid
+     */
+    protected <T, F> void repro(World.Cell[][] grid, Class<T> currentClass, Class<F> favoriteFood, int minFriendNeighbors, int minNullNeighbors, int minFoodNeighbors) {
+        final int currentRow = currentCell.getCurrentRow();
+        final int currentColumn = currentCell.getCurrentColumn();
+       
+        
+        World.Cell[] neighbors = new World.Cell[8];
+        int friendNeighbors = 0;
+        int nullNeighbors = 0;
+        int foodNeighbors = 0;
+        
+        int[] nextCoor = new int[2];
+        
+        neighbors = gatherNeighbors(currentRow, currentColumn, grid);
+        
 
+        
+        for(int i = 0; i < neighbors.length; i++) {
+            if (neighbors[i] != null) {
+                if (currentClass.isInstance(neighbors[i].entity)) {
+                    friendNeighbors++;
+                } else if (favoriteFood != null && favoriteFood.isInstance(neighbors[i].entity)) {
+                    foodNeighbors++;
+                } else if(neighbors[i].entity == null) {
+                    nullNeighbors++;
+                }
+            }
+        }
 
+//        if(this instanceof Herbivore) {
+//        System.out.println(foodNeighbors);
+//        }
+        
+        
+        if (friendNeighbors >= minFriendNeighbors && nullNeighbors >= minNullNeighbors && foodNeighbors >= minFoodNeighbors) {
+            while (grid[nextCoor[0]][nextCoor[1]].entity != null) {
+               nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
+            }
+            grid[nextCoor[0]][nextCoor[1]].entity = cloneSelf(grid[nextCoor[0]][nextCoor[1]]);
+            grid[nextCoor[0]][nextCoor[1]].entity.setEnergy(0);
+        }
+        return;
+    }
+
+    protected abstract Entity cloneSelf(World.Cell cloneCell);
+    
+    
     /**
      * Targets a random adjecent cell
      * @param currentRow
