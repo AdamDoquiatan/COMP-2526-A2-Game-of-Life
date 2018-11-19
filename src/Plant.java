@@ -30,7 +30,7 @@ public class Plant extends Entity implements HerbivoreEdible {
      */
     protected void act(World.Cell[][] grid) {
         while(energy > 0) {
-            repro(grid, this.getClass(), null, 2, 3, 0);
+            repro(grid, this.getClass(), 2, 3, 0);
             energy--;
         }
     }

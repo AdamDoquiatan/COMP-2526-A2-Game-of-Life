@@ -29,7 +29,10 @@ public class Carnivore extends Entity {
         return null;
     }
 
-
+    @Override
+    protected void refresh() {
+        energy = maxEnergy;
+    }
 
 
 }

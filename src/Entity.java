@@ -112,7 +112,7 @@ abstract class Entity {
      * Plant creates new plant in adjecent null-entity cell under certain circumstances
      * @param grid
      */
-    protected <T, F> void repro(World.Cell[][] grid, Class<T> currentClass, Class<F> favoriteFood, int minFriendNeighbors, int minNullNeighbors, int minFoodNeighbors) {
+    protected <T, F> void repro(World.Cell[][] grid, Class<T> currentClass, int minFriendNeighbors, int minNullNeighbors, int minFoodNeighbors) {
         final int currentRow = currentCell.getCurrentRow();
         final int currentColumn = currentCell.getCurrentColumn();
        
@@ -126,24 +126,17 @@ abstract class Entity {
         
         neighbors = gatherNeighbors(currentRow, currentColumn, grid);
         
-
-        
         for(int i = 0; i < neighbors.length; i++) {
             if (neighbors[i] != null) {
                 if (currentClass.isInstance(neighbors[i].entity)) {
-                    friendNeighbors++;
-                } else if (favoriteFood != null && favoriteFood.isInstance(neighbors[i].entity)) {
-                    foodNeighbors++;
+                    friendNeighbors++;   
                 } else if(neighbors[i].entity == null) {
                     nullNeighbors++;
+                } else if (checkIfEdible(neighbors[i].entity)) {
+                    foodNeighbors++;
                 }
             }
         }
-
-//        if(this instanceof Herbivore) {
-//        System.out.println(foodNeighbors);
-//        }
-        
         
         if (friendNeighbors >= minFriendNeighbors && nullNeighbors >= minNullNeighbors && foodNeighbors >= minFoodNeighbors) {
             while (grid[nextCoor[0]][nextCoor[1]].entity != null) {

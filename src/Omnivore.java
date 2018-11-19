@@ -31,7 +31,10 @@ public class Omnivore extends Entity {
         return null;
     }
 
-
+    @Override
+    protected void refresh() {
+        energy = maxEnergy;
+    }
 
 
 }

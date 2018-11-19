@@ -32,12 +32,9 @@ public class Herbivore extends Entity {
      */
     protected void act(World.Cell[][] grid) {
         
-        Plant food = new Plant(null);
-        Class<?>[] interfaces = food.getClass().getInterfaces();
-        
         while (energy > 0) {
         move(grid);
-        repro(grid, this.getClass(), interfaces[0], 1, 2, 2);
+        repro(grid, this.getClass(), 1, 2, 2);
         energy--;
         }
     }
