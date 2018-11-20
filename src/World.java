@@ -73,9 +73,11 @@ public class World {
         
         if(entityDeterminer >= 80) {
             cell.entity = new Herbivore(cell);
-        } else if (entityDeterminer >= 60) {
+        } 
+        else if (entityDeterminer >= 60) {
             cell.entity = new Plant(cell);
-        } else if (entityDeterminer >= 50) {
+        } 
+        else if (entityDeterminer >= 50) {
             cell.entity = new Carnivore(cell);
         } else if (entityDeterminer >= 45) {
             cell.entity = new Omnivore(cell);

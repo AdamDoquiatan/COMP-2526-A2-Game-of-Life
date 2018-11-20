@@ -1,38 +1,56 @@
 import javafx.scene.paint.Color;
 
-public class Carnivore extends Entity {
-    final int MAX_HEALTH = 5;
-    final int MAX_ENERGY = 1;
+/**
+ * An Herbivore.
+ *
+ * @author Adam Doquiatan
+ * @version 2018
+ */
+public class Carnivore extends Entity implements CarnivoreEdible {
     
+    
+    /**
+     * Constructs an object of type Herbivore.
+     * @param currentCell
+     */
     public Carnivore(World.Cell currentCell) {
         super();
         
-        health = MAX_HEALTH;
-        energy = MAX_ENERGY;
+        maxHealth = 5;
+        maxEnergy = 1;
+        
+        health = maxHealth;
+        energy = maxEnergy;
         color = Color.RED;
         this.currentCell = currentCell;
-        
     }
-
+    
+    /**
+     * @see Entity#act(World.Cell[][])
+     * Herbivor moves while it has energy. Loses one energy each move
+     * @param grid
+     */
     protected void act(World.Cell[][] grid) {
-
+        
+        while (energy > 0) {
+            move(grid);
+            repro(grid, this.getClass(), 1, 2, 2);
+            energy--;
+        }
     }
-
+    
     protected boolean checkIfEdible(Entity entity) {
-        // TODO Auto-generated method stub
+        if(entity instanceof CarnivoreEdible) {
+            return true;
+        }
         return false;
     }
 
-
+   
     protected Entity cloneSelf(World.Cell cloneCell) {
-        // TODO Auto-generated method stub
-        return null;
+        return new Carnivore(cloneCell);
     }
 
-    @Override
-    protected void refresh() {
-        energy = maxEnergy;
-    }
 
 
 }

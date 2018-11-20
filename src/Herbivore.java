@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Herbivore extends Entity {
+public class Herbivore extends Entity implements CarnivoreEdible  {
     
     
     /**
@@ -33,9 +33,9 @@ public class Herbivore extends Entity {
     protected void act(World.Cell[][] grid) {
         
         while (energy > 0) {
-        move(grid);
-        repro(grid, this.getClass(), 1, 2, 2);
-        energy--;
+            move(grid);
+            repro(grid, this.getClass(), 1, 2, 2);
+            energy--;
         }
     }
     

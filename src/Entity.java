@@ -75,16 +75,15 @@ abstract class Entity {
         
         Entity targetEntity = grid[nextCoor[0]][nextCoor[1]].entity;
         
-        if(!checkIfEdible(targetEntity) || targetEntity == null) {
-            return;
-        } else {
+        if (checkIfEdible(targetEntity) || targetEntity == null) {
             if(checkIfEdible(targetEntity)) {
                 eat();
             }
             grid[currentRow][currentColumn].entity = null;
             grid[nextCoor[0]][nextCoor[1]].entity = this;
             currentCell = grid[nextCoor[0]][nextCoor[1]];
-
+        } else {
+            return;
         }
     }
     
