@@ -1,40 +1,56 @@
 import javafx.scene.paint.Color;
 
-public class Omnivore extends Entity {
-    final int MAX_HEALTH = 5;
-    final int MAX_ENERGY = 1;
+/**
+ * An Herbivore.
+ *
+ * @author Adam Doquiatan
+ * @version 2018
+ */
+public class Omnivore extends Entity implements CarnivoreEdible, OmnivoreEdible {
     
+    
+    /**
+     * Constructs an object of type Herbivore.
+     * @param currentCell
+     */
     public Omnivore(World.Cell currentCell) {
         super();
         
-        health = MAX_HEALTH;
-        energy = MAX_ENERGY;
+        maxHealth = 5;
+        maxEnergy = 1;
+        
+        health = maxHealth;
+        energy = maxEnergy;
         color = Color.BLUE;
         this.currentCell = currentCell;
-        
     }
-
+    
+    /**
+     * @see Entity#act(World.Cell[][])
+     * Herbivor moves while it has energy. Loses one energy each move
+     * @param grid
+     */
     protected void act(World.Cell[][] grid) {
-
+        
+        while (energy > 0) {
+            move(grid);
+            repro(grid, this.getClass(), 1, 3, 1);
+            energy--;
+        }
     }
-
-
-
+    
     protected boolean checkIfEdible(Entity entity) {
-        // TODO Auto-generated method stub
+        if(entity instanceof OmnivoreEdible) {
+            return true;
+        }
         return false;
     }
 
-
+   
     protected Entity cloneSelf(World.Cell cloneCell) {
-        // TODO Auto-generated method stub
-        return null;
+        return new Omnivore(cloneCell);
     }
 
-    @Override
-    protected void refresh() {
-        energy = maxEnergy;
-    }
 
 
 }

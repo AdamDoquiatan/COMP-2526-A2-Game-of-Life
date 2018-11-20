@@ -164,7 +164,6 @@ abstract class Entity {
         int direction = RandomGenerator.nextNumber(8);
         int[] nextCoor = {currentRow, currentColumn};
         
-        //System.out.println(direction);
                 switch (direction) {
                 case 0:
                     if(currentRow > 0) {

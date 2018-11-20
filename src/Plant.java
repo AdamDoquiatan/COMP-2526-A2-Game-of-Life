@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Plant extends Entity implements HerbivoreEdible {
+public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible {
     
     /**
      * Constructs an object of type Plant.
