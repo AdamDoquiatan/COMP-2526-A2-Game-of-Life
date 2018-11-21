@@ -73,11 +73,9 @@ public class World {
         
         if(entityDeterminer >= 80) {
             cell.entity = new Herbivore(cell);
-        } 
-        else if (entityDeterminer >= 60) {
+        } else if (entityDeterminer >= 60) {
             cell.entity = new Plant(cell);
-        } 
-        else if (entityDeterminer >= 50) {
+        } else if (entityDeterminer >= 50) {
             cell.entity = new Carnivore(cell);
         } else if (entityDeterminer >= 45) {
             cell.entity = new Omnivore(cell);
@@ -95,17 +93,23 @@ public class World {
         private final int row;
         private final int column;
         
+        /**
+         * Constructs an object of type Cell.
+         * @param row
+         * @param column
+         */
         public Cell(int row, int column) {
             this.row = row;
             this.column = column;
         }
         
+        /**
+         * An entity acts
+         */
         public void entityAction() {
             if(entity == null) {
-                //System.out.println("null");
                 return;
             } else {
-//                System.out.println(entity);
                 entity.act(grid);
                 return;
             }
@@ -116,10 +120,8 @@ public class World {
          */
         public void entityRefresh() {
             if(entity == null ) {
-                //System.out.println("null");
                 return;
             } else {
-                //System.out.println(entity);
                 entity.refresh();
                 return;
             }

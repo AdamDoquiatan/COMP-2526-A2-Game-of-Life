@@ -31,7 +31,6 @@ public class Herbivore extends Entity implements CarnivoreEdible, OmnivoreEdible
      * @param grid
      */
     protected void act(World.Cell[][] grid) {
-        
         while (energy > 0) {
             move(grid);
             repro(grid, this.getClass(), 1, 2, 2);
@@ -39,6 +38,11 @@ public class Herbivore extends Entity implements CarnivoreEdible, OmnivoreEdible
         }
     }
     
+    /**
+     * @see Entity#checkIfEdible(Entity)
+     * @param entity
+     * @return whether an entity can be eaten
+     */
     protected boolean checkIfEdible(Entity entity) {
         if(entity instanceof HerbivoreEdible) {
             return true;
@@ -47,6 +51,11 @@ public class Herbivore extends Entity implements CarnivoreEdible, OmnivoreEdible
     }
 
    
+    /**
+     * @see Entity#cloneSelf(World.Cell)
+     * @param cloneCell
+     * @return a new Herbivore
+     */
     protected Entity cloneSelf(World.Cell cloneCell) {
         return new Herbivore(cloneCell);
     }

@@ -1,16 +1,16 @@
 import javafx.scene.paint.Color;
 
 /**
- * An Herbivore.
+ * An Omnivore.
  *
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Omnivore extends Entity implements CarnivoreEdible, OmnivoreEdible {
+public class Omnivore extends Entity implements CarnivoreEdible {
     
     
     /**
-     * Constructs an object of type Herbivore.
+     * Constructs an object of type Omnivore.
      * @param currentCell
      */
     public Omnivore(World.Cell currentCell) {
@@ -27,7 +27,7 @@ public class Omnivore extends Entity implements CarnivoreEdible, OmnivoreEdible 
     
     /**
      * @see Entity#act(World.Cell[][])
-     * Herbivor moves while it has energy. Loses one energy each move
+     * Omnivore moves while it has energy. Loses one energy each move
      * @param grid
      */
     protected void act(World.Cell[][] grid) {
@@ -39,6 +39,11 @@ public class Omnivore extends Entity implements CarnivoreEdible, OmnivoreEdible 
         }
     }
     
+    /**
+     * @see Entity#checkIfEdible(Entity)
+     * @param entity
+     * @return whether an entity is edible
+     */
     protected boolean checkIfEdible(Entity entity) {
         if(entity instanceof OmnivoreEdible) {
             return true;
@@ -46,7 +51,11 @@ public class Omnivore extends Entity implements CarnivoreEdible, OmnivoreEdible 
         return false;
     }
 
-   
+    /**
+     * @see Entity#cloneSelf(World.Cell)
+     * @param cloneCell
+     * @return a new Omnivore
+     */
     protected Entity cloneSelf(World.Cell cloneCell) {
         return new Omnivore(cloneCell);
     }

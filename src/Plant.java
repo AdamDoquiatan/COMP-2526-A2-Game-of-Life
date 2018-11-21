@@ -35,17 +35,26 @@ public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible {
         }
     }
     
+    /**
+     * @see Entity#cloneSelf(World.Cell)
+     * @param cloneCell
+     * @return a Plant
+     */
     protected Entity cloneSelf(World.Cell cloneCell) {
         return new Plant(cloneCell);
     }
     
     @Override
+    /**
+     * Only refreshes Plant energy
+     * @see Entity#refresh()
+     */
     protected void refresh() {
         energy = maxEnergy;
     }
     
+    // Unused inherited methods
     protected void move(World.Cell[][] grid) {}
-
     protected boolean checkIfEdible(Entity entity) {return false;}
    
 }

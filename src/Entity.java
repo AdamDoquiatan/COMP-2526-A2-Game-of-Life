@@ -87,13 +87,16 @@ abstract class Entity {
         }
     }
     
+    /**
+     * An entity eats another entity, replenishing its health
+     */
     protected void eat() {
         health = maxHealth;
     }
     
     /**
-     * @see Entity#refresh()
-     * Herbivor loses 1 health each turn. Recovers energy
+     * An entity loses 1 health each turn. If health reaches 0 it dies.
+     * Otherwise, energy is replenished.
      */
     protected void refresh() {
         health--;
@@ -105,11 +108,14 @@ abstract class Entity {
     }
     
     /**
-     * @param <T>
-     * @param <F>
-     * @see Entity#repro(World.Cell[][])
-     * Plant creates new plant in adjecent null-entity cell under certain circumstances
+     * An entity creates an entity of the same type as itself in 
+     * adjecent null-entity cell under specified circumstances
+     * 
      * @param grid
+     * @param currentClass
+     * @param minFriendNeighbors
+     * @param minNullNeighbors
+     * @param minFoodNeighbors
      */
     protected <T, F> void repro(World.Cell[][] grid, Class<T> currentClass, int minFriendNeighbors, int minNullNeighbors, int minFoodNeighbors) {
         final int currentRow = currentCell.getCurrentRow();
@@ -125,6 +131,7 @@ abstract class Entity {
         
         neighbors = gatherNeighbors(currentRow, currentColumn, grid);
         
+        //Tallies neighbor types
         for(int i = 0; i < neighbors.length; i++) {
             if (neighbors[i] != null) {
                 if (currentClass.isInstance(neighbors[i].entity)) {
@@ -137,6 +144,7 @@ abstract class Entity {
             }
         }
         
+        // Decides if/how to reproduce
         if (friendNeighbors >= minFriendNeighbors && nullNeighbors >= minNullNeighbors && foodNeighbors >= minFoodNeighbors) {
             while (grid[nextCoor[0]][nextCoor[1]].entity != null) {
                nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
@@ -147,6 +155,11 @@ abstract class Entity {
         return;
     }
 
+    /**
+     * @param cloneCell
+     *          location of new entity
+     * @return a new instance of the type of entity calling function
+     */
     protected abstract Entity cloneSelf(World.Cell cloneCell);
     
     
