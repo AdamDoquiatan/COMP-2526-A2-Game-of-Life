@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javafx.application.Application;
 
 /**
@@ -6,7 +8,7 @@ import javafx.application.Application;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Main {
+public class Main implements Serializable {
 
     public static void main(String[] args) {
         Game game = new Game();

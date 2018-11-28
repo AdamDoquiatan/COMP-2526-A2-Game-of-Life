@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * A world for entities to exist.
@@ -5,7 +6,7 @@
  * @author Adam Doquiatan
  * @version 2018
  */
-public class World {
+public class World implements Serializable {
     private Game game;
     private Cell[][] grid;
     
@@ -88,7 +89,7 @@ public class World {
      * @author Adam Doquiatan
      * @version 2018
      */
-    public class Cell {
+    public class Cell implements Serializable {
         Entity entity = null;
         private final int row;
         private final int column;

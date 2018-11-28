@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -6,14 +8,14 @@ import javafx.scene.paint.Color;
  * @author Adam Doquiatan
  * @version 2018
  */
-abstract class Entity {  
+abstract class Entity implements Serializable {  
     protected int maxHealth;
     protected int maxEnergy;
     
     
     protected int health;
     protected int energy;
-    protected Color color;
+    protected transient Color color;
     World.Cell currentCell;
 
     /**

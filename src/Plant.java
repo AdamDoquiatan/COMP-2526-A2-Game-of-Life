@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -6,7 +8,7 @@ import javafx.scene.paint.Color;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible {
+public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible, Serializable { 
     
     /**
      * Constructs an object of type Plant.

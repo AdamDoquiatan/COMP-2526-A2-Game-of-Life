@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javafx.application.Application;
 
 /**
@@ -6,9 +8,12 @@ import javafx.application.Application;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class Game {
+public class Game implements Serializable {
     
-   final int MAX_ROWS = 50;
+   /** 
+     */
+    private static final long serialVersionUID = 1L;
+final int MAX_ROWS = 50;
    final int MAX_COLUMNS = 50; 
     
    World world;

@@ -3,7 +3,17 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import javafx.application.*;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
@@ -17,7 +27,7 @@ import javafx.scene.input.MouseEvent;
  * @author Adam Doquiatan
  * @version 2018
  */
-public class DisplayerFrame extends Application
+public class DisplayerFrame extends Application implements Serializable
 {
 	
     public static int MAX_ROWS;
@@ -45,7 +55,7 @@ public class DisplayerFrame extends Application
 	   
         VBox globalPane = new VBox();
         
-        buildMenu(globalPane);
+        buildMenu(globalPane, stage);
 		buildGUI(globalPane);
 
 		// Sets box and outer gridpane padding
@@ -65,7 +75,7 @@ public class DisplayerFrame extends Application
     }
     
 
-    private void buildMenu(VBox globalPane) {
+    private void buildMenu(VBox globalPane, Stage stage) {
         menuBar = new MenuBar();
         
         Menu menu = new Menu("Save/Load");
@@ -73,6 +83,34 @@ public class DisplayerFrame extends Application
         
         MenuItem save = new MenuItem("Save State");
         MenuItem load = new MenuItem("Load State");
+        
+        
+        // Saves the game
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                System.out.println("save");
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save file");
+                fileChooser.setInitialFileName("Game_of_Life_save");
+                File savedFile = fileChooser.showSaveDialog(stage);
+
+                try {
+                    FileOutputStream fileOutput = new FileOutputStream(savedFile.getAbsolutePath());
+                    ObjectOutput out = new ObjectOutputStream(fileOutput);
+                    out.writeObject(game);
+                    out.flush();
+                    out.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        );
+        
+        load.setOnAction(loadSelect);
+
         menu.getItems().add(save);
         menu.getItems().add(load);
         
@@ -127,6 +165,14 @@ public class DisplayerFrame extends Application
         public void handle(MouseEvent event) {
             game.nextTurn();
             updateGUI();
+        }
+    };
+    
+
+    
+    EventHandler<ActionEvent> loadSelect = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent event) {
+            System.out.println("load"); 
         }
     };
     
