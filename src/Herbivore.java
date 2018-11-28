@@ -11,6 +11,11 @@ import javafx.scene.paint.Color;
 public class Herbivore extends Entity implements CarnivoreEdible, OmnivoreEdible, Serializable  {
     
     
+    /** 
+     */
+    private static final long serialVersionUID = 1L;
+
+
     /**
      * Constructs an object of type Herbivore.
      * @param currentCell
@@ -62,6 +67,12 @@ public class Herbivore extends Entity implements CarnivoreEdible, OmnivoreEdible
         return new Herbivore(cloneCell);
     }
 
-
+    /**
+     * @see Entity#restoreColor()
+     *
+     */
+    protected void restoreColor() {
+        color = Color.YELLOW;
+    }
 
 }

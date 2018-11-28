@@ -7,6 +7,9 @@ import java.io.Serializable;
  * @version 2018
  */
 public class World implements Serializable {
+    /** 
+     */
+    private static final long serialVersionUID = 1L;
     private Game game;
     private Cell[][] grid;
     
@@ -34,7 +37,7 @@ public class World implements Serializable {
                 grid[i][j] = cell; //Swap j and i to flip grid.
                 //!!
                 
-               System.out.print("row, column: " + i + " , " + j + " entity:" + cell.entity + "\n");
+               //System.out.print("row, column: " + i + " , " + j + " entity:" + cell.entity + "\n");
             }
         }
     }
@@ -90,6 +93,9 @@ public class World implements Serializable {
      * @version 2018
      */
     public class Cell implements Serializable {
+        /** 
+         */
+        private static final long serialVersionUID = 1L;
         Entity entity = null;
         private final int row;
         private final int column;

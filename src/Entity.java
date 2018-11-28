@@ -9,6 +9,9 @@ import javafx.scene.paint.Color;
  * @version 2018
  */
 abstract class Entity implements Serializable {  
+    /** 
+     */
+    private static final long serialVersionUID = 1L;
     protected int maxHealth;
     protected int maxEnergy;
     
@@ -163,6 +166,11 @@ abstract class Entity implements Serializable {
      * @return a new instance of the type of entity calling function
      */
     protected abstract Entity cloneSelf(World.Cell cloneCell);
+    
+    /**
+     * Restores color to the entity (used after a game is loaded)
+     */
+    protected abstract void restoreColor();
     
     
     /**

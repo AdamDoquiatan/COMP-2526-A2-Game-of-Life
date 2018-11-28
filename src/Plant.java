@@ -10,6 +10,9 @@ import javafx.scene.paint.Color;
  */
 public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible, Serializable { 
     
+    /** 
+     */
+    private static final long serialVersionUID = 1L;
     /**
      * Constructs an object of type Plant.
      * @param currentCell
@@ -53,6 +56,14 @@ public class Plant extends Entity implements HerbivoreEdible, OmnivoreEdible, Se
      */
     protected void refresh() {
         energy = maxEnergy;
+    }
+    
+    /**
+     * @see Entity#restoreColor()
+     *
+     */
+    protected void restoreColor() {
+        color = Color.GREEN;
     }
     
     // Unused inherited methods

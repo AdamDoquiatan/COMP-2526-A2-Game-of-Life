@@ -5,9 +5,12 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -30,6 +33,9 @@ import javafx.scene.input.MouseEvent;
 public class DisplayerFrame extends Application implements Serializable
 {
 	
+    /** 
+     */
+    private static final long serialVersionUID = 1L;
     public static int MAX_ROWS;
     public static int MAX_COLUMNS;
     
@@ -51,6 +57,11 @@ public class DisplayerFrame extends Application implements Serializable
     static GridPane myGridPane;
     static MenuBar menuBar;
     
+    /**
+     * Starts the GUI
+     * @see javafx.application.Application#start(javafx.stage.Stage)
+     * @param stage
+     */
     public void start(Stage stage){
 	   
         VBox globalPane = new VBox();
@@ -75,6 +86,11 @@ public class DisplayerFrame extends Application implements Serializable
     }
     
 
+    /**
+     * Builds a menu at the top of the viewport
+     * @param globalPane
+     * @param stage
+     */
     private void buildMenu(VBox globalPane, Stage stage) {
         menuBar = new MenuBar();
         
@@ -85,31 +101,72 @@ public class DisplayerFrame extends Application implements Serializable
         MenuItem load = new MenuItem("Load State");
         
         
-        // Saves the game
+        // Save button functionality
         save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                System.out.println("save");
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Save file");
-                fileChooser.setInitialFileName("Game_of_Life_save");
+                fileChooser.setInitialFileName("GAME_OF_LIFE_SAVE");
                 File savedFile = fileChooser.showSaveDialog(stage);
 
-                try {
-                    FileOutputStream fileOutput = new FileOutputStream(savedFile.getAbsolutePath());
-                    ObjectOutput out = new ObjectOutputStream(fileOutput);
-                    out.writeObject(game);
-                    out.flush();
-                    out.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(savedFile != null) {
+                    try {
+                        FileOutputStream fileOutput = new FileOutputStream(savedFile.getAbsolutePath());
+                        ObjectOutput out = new ObjectOutputStream(fileOutput);
+                        out.writeObject(game);
+                        out.flush();
+                        out.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    
+                    System.out.println("Game Saved");
                 }
             }
         }
         );
         
-        load.setOnAction(loadSelect);
+        // Load button functionality
+        load.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Load file");
+                File target = fileChooser.showOpenDialog(null);
+                
+                if(target != null) {
+                    try {
+                        FileInputStream fileInput = new FileInputStream(target.getAbsolutePath());
+                        ObjectInput in = new ObjectInputStream(fileInput);
+                        game = (Game) in.readObject();
+                        in.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    
+                    gameGrid = game.world.getGrid();
+                    
+                    //Color isn't serializable
+                    //This loop restores colors to all entities in the grid
+                    for(int row = 0; row < MAX_ROWS; row++) {
+                        for(int col = 0; col < MAX_COLUMNS; col++) {
+                            if(gameGrid[row][col].entity != null) {
+                                gameGrid[row][col].entity.restoreColor();
+                            }
+                        }
+                    }
+                    
+                    updateGUI();
+                    System.out.println("Game Loaded");
+                }
+            }
+        }
+        );
 
         menu.getItems().add(save);
         menu.getItems().add(load);
@@ -117,7 +174,10 @@ public class DisplayerFrame extends Application implements Serializable
         globalPane.getChildren().add(menuBar);
     }
     
-    // Generates boxes(cells) on a grid
+    /**
+     * Generates boxes(cells) on a grid
+     * @param globalPane
+     */
     private void buildGUI(VBox globalPane) {
         myGridPane = new GridPane();
         
@@ -146,6 +206,9 @@ public class DisplayerFrame extends Application implements Serializable
         globalPane.getChildren().add(myGridPane);
     }
     
+    /**
+     * Updates the GUI to match the gameGrid
+     */
     private void updateGUI() {
         for(int row = 0; row < MAX_ROWS; row++) {
             for(int col = 0; col < MAX_COLUMNS; col++) {
@@ -167,17 +230,4 @@ public class DisplayerFrame extends Application implements Serializable
             updateGUI();
         }
     };
-    
-
-    
-    EventHandler<ActionEvent> loadSelect = new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
-            System.out.println("load"); 
-        }
-    };
-    
-   
-    
-    
-
 }

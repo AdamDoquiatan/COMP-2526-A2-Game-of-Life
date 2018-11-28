@@ -13,8 +13,10 @@ public class Game implements Serializable {
    /** 
      */
     private static final long serialVersionUID = 1L;
-final int MAX_ROWS = 50;
-   final int MAX_COLUMNS = 50; 
+/** 
+     */
+    final int MAX_ROWS = 50;
+    final int MAX_COLUMNS = 50; 
     
    World world;
    
