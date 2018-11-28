@@ -1,4 +1,7 @@
 import javafx.scene.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.stage.*;
 import javafx.application.*;
 import javafx.event.EventHandler;
@@ -36,13 +39,15 @@ public class DisplayerFrame extends Application
     static World.Cell[][] gameGrid;
     private Rectangle[][] rectangles = new Rectangle[MAX_ROWS][MAX_COLUMNS];
     static GridPane myGridPane;
+    static MenuBar menuBar;
     
     public void start(Stage stage){
 	   
-        myGridPane = new GridPane();
-		  
-		buildGUI();
-		
+        VBox globalPane = new VBox();
+        
+        buildMenu(globalPane);
+		buildGUI(globalPane);
+
 		// Sets box and outer gridpane padding
         myGridPane.setHgap(SPACING);
         myGridPane.setVgap(SPACING);
@@ -51,7 +56,7 @@ public class DisplayerFrame extends Application
         myGridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, updateGame);
 		
         // Sets up the scene
-		Scene scene = new Scene(myGridPane);
+		Scene scene = new Scene(globalPane);
 		stage.setScene(scene);
 		stage.setTitle("Game of Life");
 		stage.sizeToScene(); //Fits window to contents!!!
@@ -60,9 +65,24 @@ public class DisplayerFrame extends Application
     }
     
 
+    private void buildMenu(VBox globalPane) {
+        menuBar = new MenuBar();
+        
+        Menu menu = new Menu("Save/Load");
+        menuBar.getMenus().add(menu);
+        
+        MenuItem save = new MenuItem("Save State");
+        MenuItem load = new MenuItem("Load State");
+        menu.getItems().add(save);
+        menu.getItems().add(load);
+        
+        globalPane.getChildren().add(menuBar);
+    }
     
     // Generates boxes(cells) on a grid
-    private void buildGUI() {
+    private void buildGUI(VBox globalPane) {
+        myGridPane = new GridPane();
+        
         for(int row = 0; row < MAX_ROWS; row++) {
             for(int col = 0; col < MAX_COLUMNS; col++) {
                 Rectangle rec = new Rectangle();
@@ -73,23 +93,19 @@ public class DisplayerFrame extends Application
                 
                 if(gameGrid[row][col].entity == null) { 
                     rec.setFill(Color.WHITE);
-                    //System.out.println("Drawing Null");
                 } else {
-                    //System.out.println(gameGrid[row][col].entity);
                     rec.setFill(gameGrid[row][col].entity.getColor());
                 }
                 
                 GridPane.setRowIndex(rec, row);
                 GridPane.setColumnIndex(rec, col);
-                
-                //System.out.println("Row: " + GridPane.getRowIndex(rec));
-                //System.out.println("Column: " + GridPane.getColumnIndex(rec));
                
                 rectangles[row][col] = rec;
                 
                 myGridPane.getChildren().addAll(rec);
             }
         }
+        globalPane.getChildren().add(myGridPane);
     }
     
     private void updateGUI() {
@@ -97,9 +113,7 @@ public class DisplayerFrame extends Application
             for(int col = 0; col < MAX_COLUMNS; col++) {
                 if(gameGrid[row][col].entity == null) { 
                     rectangles[row][col].setFill(Color.WHITE);
-                    //System.out.println("Drawing Null");
                 } else {
-                    //System.out.println(gameGrid[row][col].entity);
                     rectangles[row][col].setFill(gameGrid[row][col].entity.getColor());
                 }
             }
