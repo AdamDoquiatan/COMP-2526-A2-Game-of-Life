@@ -75,15 +75,53 @@ abstract class Entity implements Serializable {
         final int currentColumn = currentCell.getCurrentColumn();
         
         int[] nextCoor = new int[2];
+        World.Cell[] neighbors = new World.Cell[8];
+
+        neighbors = gatherNeighbors(currentRow, currentColumn, grid);
+        
+        
+        World.Cell[] edibles = new World.Cell[8];
+        
+        for(int i = 0; i < neighbors.length; i++) {
+            if(neighbors[i] != null) {
+                if(checkIfEdible(neighbors[i].entity)) {
+                    edibles[i] = neighbors[i];
+                }
+            }
+        }
+        
+        boolean ediblesCheck = false;
+        
+        for(int i = 0; ediblesCheck == false && i < edibles.length; i++) {
+            if(edibles[i] != null) {
+                ediblesCheck = true;
+            }
+        }
+        
+        if(ediblesCheck == true) {
+            boolean moved = false;
+            
+            while (moved != true) {
+                int nextCellNum = RandomGenerator.nextNumber(8);
+                
+                if(neighbors[nextCellNum] != null && neighbors[nextCellNum].entity != null) {
+                    nextCoor[0] = neighbors[nextCellNum].getCurrentRow();
+                    nextCoor[1] = neighbors[nextCellNum].getCurrentColumn();
+                    eat();
+                    grid[currentRow][currentColumn].entity = null;
+                    grid[nextCoor[0]][nextCoor[1]].entity = this;
+                    currentCell = grid[nextCoor[0]][nextCoor[1]];
+                    moved = true;
+                }
+            }
+            return;
+        }
 
         nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
         
         Entity targetEntity = grid[nextCoor[0]][nextCoor[1]].entity;
         
         if (checkIfEdible(targetEntity) || targetEntity == null) {
-            if(checkIfEdible(targetEntity)) {
-                eat();
-            }
             grid[currentRow][currentColumn].entity = null;
             grid[nextCoor[0]][nextCoor[1]].entity = this;
             currentCell = grid[nextCoor[0]][nextCoor[1]];
