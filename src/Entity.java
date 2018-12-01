@@ -79,34 +79,30 @@ abstract class Entity implements Serializable {
 
         neighbors = gatherNeighbors(currentRow, currentColumn, grid);
         
-        
         World.Cell[] edibles = new World.Cell[8];
+       
+        //Picks out adjecent cells containing food.
+        boolean ediblesCheck = false;
         
         for(int i = 0; i < neighbors.length; i++) {
             if(neighbors[i] != null) {
                 if(checkIfEdible(neighbors[i].entity)) {
                     edibles[i] = neighbors[i];
+                    ediblesCheck = true;
                 }
             }
         }
         
-        boolean ediblesCheck = false;
-        
-        for(int i = 0; ediblesCheck == false && i < edibles.length; i++) {
-            if(edibles[i] != null) {
-                ediblesCheck = true;
-            }
-        }
-        
+        //If there's food in an adjecent cell, entity moves to random cell conatining food.
         if(ediblesCheck == true) {
             boolean moved = false;
             
             while (moved != true) {
                 int nextCellNum = RandomGenerator.nextNumber(8);
                 
-                if(neighbors[nextCellNum] != null && neighbors[nextCellNum].entity != null) {
-                    nextCoor[0] = neighbors[nextCellNum].getCurrentRow();
-                    nextCoor[1] = neighbors[nextCellNum].getCurrentColumn();
+                if(edibles[nextCellNum] != null && edibles[nextCellNum].entity != null) {
+                    nextCoor[0] = edibles[nextCellNum].getCurrentRow();
+                    nextCoor[1] = edibles[nextCellNum].getCurrentColumn();
                     eat();
                     grid[currentRow][currentColumn].entity = null;
                     grid[nextCoor[0]][nextCoor[1]].entity = this;
@@ -117,11 +113,12 @@ abstract class Entity implements Serializable {
             return;
         }
 
+        //If there's no food in adjecent cells, entity moves to random empty cell.
         nextCoor = targetAdjacentCell(currentRow, currentColumn, grid);
         
         Entity targetEntity = grid[nextCoor[0]][nextCoor[1]].entity;
         
-        if (checkIfEdible(targetEntity) || targetEntity == null) {
+        if (targetEntity == null) {
             grid[currentRow][currentColumn].entity = null;
             grid[nextCoor[0]][nextCoor[1]].entity = this;
             currentCell = grid[nextCoor[0]][nextCoor[1]];

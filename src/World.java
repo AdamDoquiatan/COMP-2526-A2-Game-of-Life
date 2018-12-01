@@ -34,7 +34,7 @@ public class World implements Serializable {
                 populateCell(cell);
                 
                 //!!
-                grid[j][i] = cell; //Swap j and i to flip grid.
+                grid[i][j] = cell; //Swap j and i to flip grid.
                 //!!
                 
                //System.out.print("row, column: " + i + " , " + j + " entity:" + cell.entity + "\n");
@@ -140,14 +140,14 @@ public class World implements Serializable {
         //!!
         //Return column for getCurrentRow, row for getCurrentColumn to flip grid.
         public int getCurrentRow() {
-            return column;
+            return row;
         }
         
         /**
          * @return the cell's current column
          */
         public int getCurrentColumn() {
-            return row;
+            return column;
         }
         //!!
     }
